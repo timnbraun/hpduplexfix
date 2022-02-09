@@ -1,0 +1,24 @@
+1 ICON "gethpduplex.ico"
+1 VERSIONINFO
+FILEVERSION     0,1,0,2
+PRODUCTVERSION  0,1,0,2
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", "Obnoxious Music"
+      VALUE "FileDescription", "HP Duplexer Fixer"
+      VALUE "FileVersion", "0.1.0.2"
+      VALUE "InternalName", "sethpduplex"
+      VALUE "LegalCopyright", "Tim Braun <tim.n.braun@gmail.com>"
+      VALUE "OriginalFilename", "sethpduplex.exe"
+      VALUE "ProductName", "sethpduplex"
+      VALUE "ProductVersion", "0.1.0.2"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END
