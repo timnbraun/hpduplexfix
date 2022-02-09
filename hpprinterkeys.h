@@ -1,6 +1,8 @@
 //
 // hpprinterkeys.h
 //
+//  Copyright (c) 2022 Tim Braun <tim.n.braun@gmail.com>
+//
 
 using std::string;
 
