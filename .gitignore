@@ -1,3 +1,7 @@
+# Editor cruft
+*.swp
+*~
+
 # Prerequisites
 *.d
 .deps
