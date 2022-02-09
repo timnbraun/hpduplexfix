@@ -1,25 +1,30 @@
+//
+// getversion.cpp
+//
+//   Get the product name and version from the VERSIONINFO structure
+//
+//  Copyright (c) 2022 Tim Braun <tim.n.braun@gmail.com>
+//
 
 #include <windows.h>
 #include <winver.h>
 #include <string>
-#include <vector>
-#include <cstdio>
 #include <iostream>
+#include <vector>
 
-using std::string, std::vector, std::cout, std::endl;
+using std::string, std::vector, std::cerr, std::endl;
 
 #include "getversion.h"
 
-#define TRACE printf
 #define _T
 
-bool GetProductAndVersion(string &strProductName, string &strProductVersion)
+bool getProductAndVersion(string &strProductName, string &strProductVersion)
 {
     // get the filename of the executable containing the version resource
     TCHAR szFilename[MAX_PATH + 1] = {0};
     if (GetModuleFileName(NULL, szFilename, MAX_PATH) == 0)
     {
-        TRACE("GetModuleFileName failed with error %ld\n", GetLastError());
+        cerr << "GetModuleFileName failed with error " << GetLastError() << endl;
         return false;
     }
 
@@ -28,7 +33,7 @@ bool GetProductAndVersion(string &strProductName, string &strProductVersion)
     DWORD dwSize = GetFileVersionInfoSize(szFilename, &dummy);
     if (dwSize == 0)
     {
-        TRACE("GetFileVersionInfoSize failed with error %ld\n", GetLastError());
+        cerr << "GetFileVersionInfoSize failed with error " << GetLastError() << endl;
         return false;
     }
     vector<BYTE> data(dwSize);
@@ -36,7 +41,7 @@ bool GetProductAndVersion(string &strProductName, string &strProductVersion)
     // load the version info
     if (!GetFileVersionInfo(szFilename, 0, dwSize, &data[0]))
     {
-        TRACE("GetFileVersionInfo failed with error %ld\n", GetLastError());
+        cerr << "GetFileVersionInfo failed with error " << GetLastError() << endl;
         return false;
     }
 
@@ -50,7 +55,7 @@ bool GetProductAndVersion(string &strProductName, string &strProductVersion)
     if (!VerQueryValue(&data[0], _T("\\StringFileInfo\\040904e4\\ProductName"), &pvProductName, &iProductNameLen) ||
         !VerQueryValue(&data[0], _T("\\StringFileInfo\\040904e4\\ProductVersion"), &pvProductVersion, &iProductVersionLen))
     {
-        TRACE("Can't obtain ProductName and ProductVersion from resources\n");
+        cerr << "Can't obtain ProductName and ProductVersion from resources" << endl;
         return false;
     }
 
