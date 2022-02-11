@@ -1,7 +1,7 @@
 1 ICON "gethpduplex.ico"
 1 VERSIONINFO
-FILEVERSION     0,1,0,2
-PRODUCTVERSION  0,1,0,2
+FILEVERSION     0,1,0,3
+PRODUCTVERSION  0,1,0,3
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -9,12 +9,12 @@ BEGIN
     BEGIN
       VALUE "CompanyName", "Obnoxious Music"
       VALUE "FileDescription", "HP Duplexer Fixer"
-      VALUE "FileVersion", "0.1.0.2"
+      VALUE "FileVersion", "0.1.0.3"
       VALUE "InternalName", "sethpduplex"
       VALUE "LegalCopyright", "Tim Braun <tim.n.braun@gmail.com>"
       VALUE "OriginalFilename", "sethpduplex.exe"
       VALUE "ProductName", "sethpduplex"
-      VALUE "ProductVersion", "0.1.0.2"
+      VALUE "ProductVersion", "0.1.0.3"
     END
   END
   BLOCK "VarFileInfo"

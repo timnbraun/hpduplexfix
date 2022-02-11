@@ -59,21 +59,20 @@ int main(int argc, char *argv[])
 		exit(rc);
 	}
 
+	//
+	// Do the work to enable the feature
+	//
 	enableDuplex(PrinterName, PropertyName);
+	cout << "Duplexer enabled on '" << PrinterName << "'" << endl;
 
-
-	bool LaunchedByDoubleClick = false;
-
-	if (consoleListLength() == 1) {
-		LaunchedByDoubleClick = true;
-	}
-
+	bool LaunchedByDoubleClick = (consoleListLength() == 1);
 	cout << "This was " << (LaunchedByDoubleClick? "" : "not ") <<
 		"launched by double click" << endl;
 
-	Sleep(4000);
+	// If the console is going to disappear, keep it on screen for a short time
 	if (LaunchedByDoubleClick) {
 		Sleep(4000);
 	}
+
 	return 0;
 }
