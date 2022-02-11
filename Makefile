@@ -9,29 +9,40 @@ CFLAGS =
 CPPFLAGS = -Werror -Wall -m64 -mwin32 ${DEPFLAGS}
 CXXFLAGS = -std=c++17
 LDLIBS += -lversion -lstdc++
+LDFLAGS += -m64 -mwin32 -mconsole
+EXEEXT = .exe
 
 CROSS_COMPILE = x86_64-w64-mingw32-
 CC = ${CROSS_COMPILE}gcc
 CXX = ${CROSS_COMPILE}g++
 RC = ${CROSS_COMPILE}windres
 PROJ_DIR = $(shell pwd)
-OBJ_DIR = obj
+OBJ_DIR := obj
 DEP_DIR := .deps
 
 
 BUILD_DATE = $(shell date '+%y/%m/%d')
 
-gethpduplex_SRC = gethpduplex.cpp driverfeatures.cpp getversion.cpp gethpduplex_res.rc
-gethpduplex_OBJ = $(gethpduplex_SRC:.cpp|.rc,.o)
-$(info ${gethpduplex_OBJ})
+gethpduplex_SRC = gethpduplex.cpp driverfeatures.cpp getversion.cpp \
+	gethpduplex_res.rc
+gethpduplex_OBJ = $(patsubst %.rc, $(OBJ_DIR)/%.o, \
+	$(patsubst %.cpp, $(OBJ_DIR)/%.o, ${gethpduplex_SRC}))
 
-BINS = gethpduplex sethpduplex
+sethpduplex_SRC = sethpduplex.cpp driverfeatures.cpp getversion.cpp \
+	sethpduplex_res.rc
+sethpduplex_OBJ = $(patsubst %.rc, $(OBJ_DIR)/%.o, \
+	$(patsubst %.cpp, $(OBJ_DIR)/%.o, ${sethpduplex_SRC}))
+
+BINS = gethpduplex${EXEEXT} sethpduplex${EXEEXT} # testconsole${EXEEXT}
 all: ${BINS}
 
-gethpduplex: $(addprefix ${OBJ_DIR}/, gethpduplex.o gethpduplex_res.o driverfeatures.o getversion.o)
+gethpduplex${EXEEXT}: ${gethpduplex_OBJ}
 	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
 
-sethpduplex: $(addprefix ${OBJ_DIR}/, sethpduplex.o sethpduplex_res.o driverfeatures.o getversion.o)
+sethpduplex${EXEEXT}: $(addprefix ${OBJ_DIR}/, sethpduplex.o sethpduplex_res.o driverfeatures.o getversion.o)
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
+
+testconsole${EXEEXT}: $(OBJ_DIR)/testconsole.o
 	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
 
 ${OBJ_DIR}/gethpduplex.o: gethpduplex.cpp | ${OBJ_DIR} ${DEP_DIR}
@@ -49,7 +60,7 @@ ${OBJ_DIR}/%.o: %.rc | ${OBJ_DIR}
 
 ${OBJ_DIR} ${DEP_DIR} : ; mkdir -p $@
 
-%: %.cpp
+%${EXEEXT}: %.cpp
 	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) $(OUTPUT_OPTION)
 
 clean:
