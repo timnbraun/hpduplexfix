@@ -84,7 +84,8 @@ vector<name_value> dumpDriverFeatures( const string &driverKey, const string &fe
 // Set-PrinterProperty -PrinterName 'hplaser (HP LaserJet Professional P1606dn)' 
 //            -PropertyName Config:DuplexUnit -Value TRUE
 
-LSTATUS setPrinterProperty( const string &printer, const string &name, const string &value )
+LSTATUS setPrinterProperty( const string &printer, const string &name, 
+			const string &value )
 {
 	LSTATUS rc = ERROR_SUCCESS;
 
@@ -100,9 +101,11 @@ LSTATUS setPrinterProperty( const string &printer, const string &name, const str
 		.nShow = SW_HIDE,
 	};
 
-	cout << name << " = " << value << endl;
 
-	if (verbose) cout << sei.lpParameters << endl;
+	if (verbose) {
+		cout << name << " = " << value << endl;
+		cout << sei.lpParameters << endl;
+	}
 
 	rc = ShellExecuteEx(&sei);
 
@@ -111,8 +114,8 @@ LSTATUS setPrinterProperty( const string &printer, const string &name, const str
 	GetExitCodeProcess( sei.hProcess, &exit_code );
 	if (exit_code != ERROR_SUCCESS) {
 		LSTATUS last_error = GetLastError();
-		cerr << "A little problem with powershell : " << rc << ", GetLastError() = " <<
-			last_error << endl;
+		cerr << "A little problem with powershell : " << rc << 
+			", GetLastError() = " << last_error << endl;
 	}
 
 	return rc;
